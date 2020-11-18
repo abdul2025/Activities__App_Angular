@@ -1,19 +1,17 @@
+<app-header [sideNav]="sidenav"></app-header>
 <div class="wrapper">
-  <app-header [sideNav]="sidenav"></app-header>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav mode="side" opened>
       <nav>
-        <a mat-button class="nav-link">
-          <mat-icon>home</mat-icon>
-          Home
+        <a mat-button class="nav-link" *ngFor="let link of links" [routerLink]="link.path" routerLinkActive="active">
+          <mat-icon>{{link.icon}}</mat-icon>
+          {{link.title}}
         </a>
       </nav>
     </mat-sidenav>
     <mat-sidenav-content>
-      <div class="container">
-        <div class="row">
-          content
-        </div>
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
