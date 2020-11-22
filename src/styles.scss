@@ -11,3 +11,50 @@ body {
 }
 
 
+mat-card {
+  background-color: #fff;
+  color: black;
+  width: 100%;
+  font-family: 'Roboto,Helvetica,Arial,sans-serif';
+  margin-top: 1%;
+  height: 100%;
+}
+
+mat-card-title{
+  font-size: 20px !important;
+}
+
+.myDay-Card-clock-svg {
+  display: grid;
+  gap:6px;
+
+}
+
+.my-day-svg {
+  padding-left: 2%;
+}
+
+.list-group-boxs {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  gap: 7px;
+}
+.list-box-color {
+  div {
+    height: 100%;
+  }
+}
+.boxs {
+  padding-left:30px;
+}
+
+mat-card-title span {
+  border-bottom: 1px solid gold;
+  padding-bottom: 2%;
+}
+
+
+.mat-slider-horizontal {
+  min-width: 100%;
+}
+

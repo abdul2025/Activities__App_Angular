@@ -1,0 +1,52 @@
+<mat-card>
+  <mat-card-header style='padding-bottom:20px'>
+    <mat-card-title>
+      <span>Set Your Daily Activities</span>
+    </mat-card-title>
+  </mat-card-header>
+  <button type="button" mat-raised-button (click)='onAddActivities()'>Add New Activity</button>
+  <form [formGroup]="activitiesFrom" (ngSubmit)="onSubmit()" #form>
+    <div formArrayName='activities'>
+      <mat-card *ngFor="let activity of controls;  let i = index" [formGroupName]="i">
+        <mat-card-header>
+          <mat-card-title>
+            <span *ngIf="activityName.value == ''">Activity Name</span>
+            <span>{{activityName.value | uppercase}}</span>
+          </mat-card-title>
+        </mat-card-header>
+        <div class="container">
+          <div class="row">
+            <mat-form-field class='col'>
+              <input matInput placeholder="Activity Name" #activityName formControlName="name" type="text" name='name'>
+            </mat-form-field>
+            <mat-form-field class='col'>
+              <input matInput placeholder="Activity Hours" formControlName="hours" type="number" min="0" max="24"
+                name="hours" #hoursSpents>
+            </mat-form-field>
+          </div>
+          <span>Total Hours Spent </span>
+          <div class=' widthyBox' style=' max-width:100%; height:100%'
+            [ngStyle]="{'width.%': (hoursSpents.value*4.16), 'background-color': addingBackGroundColor(i)}">
+            <img src="https://cdn0.iconfinder.com/data/icons/time-42/1000/Time-05-512.png" alt="clock-icon"
+              height='20px' srcset="">
+            <span *ngIf='hoursSpents.value > 2'>
+              {{hoursSpents.value}}
+            </span>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div class='totatHours' [ngStyle]="{'display': hoursSatus ? 'block' : 'none' }">
+      Total Hours For Your Activities is over The Day Hours: -- {{totalHours}} -- Hours
+    </div>
+    <mat-card-actions [ngStyle]="{'display':controls.length == 0 ? 'none' : 'block' }">
+      <button type="submit" mat-button color="primary"
+        [disabled]="activitiesFrom.get('activities').invalid">Submit</button>
+      <button type="button" mat-button color='warn' (click)='cancel()'>Cancel</button>
+    </mat-card-actions>
+  </form>
+
+  <!-- <div>{{activitiesFrom.value | json }}</div> -->
+
+
+</mat-card>
