@@ -10,6 +10,10 @@ body {
   width: 100%;
 }
 
+// * {
+//   border: 1px solid red;
+// }
+
 
 mat-card {
   background-color: #fff;
@@ -36,7 +40,7 @@ mat-card-title{
 
 .list-group-boxs {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 3fr;
   gap: 7px;
 }
 .list-box-color {
@@ -57,4 +61,34 @@ mat-card-title span {
 .mat-slider-horizontal {
   min-width: 100%;
 }
+
+
+.widthyBox {
+  width: 3px;
+  transition: width 0.5s;
+  img {
+    padding-left: 5%;
+  }
+}
+
+.totatHoursPrevent {
+  margin:1%;
+  padding: 2%;
+  color:#f44336 ;
+  background-color: #fdc9c56b;
+}
+
+mat-card-actions{
+  padding-top: 32px;
+  text-align: center;
+}
+.activity-date {
+
+  padding-bottom: 20px;
+  // padding-right: 20px;
+  color: #1e87b7;
+  font-size: 15px;
+  font-weight: 800;
+}
+
 

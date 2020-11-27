@@ -1,0 +1,13 @@
+.cardViews {
+  padding: 0.2% 0.3%;
+}
+
+.cardsImgs {
+  display: grid;
+  width: 100%;
+  img {
+    justify-self: end;
+    width: 100px;
+    height: 100px;
+  }
+}

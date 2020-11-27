@@ -1,1 +1,38 @@
-<p>view-teaks works!</p>
+<div class="row">
+  <div class="col-md-6 cardViews" *ngFor="let activity of allActivities; let i = index;">
+    <mat-card class='cards'>
+      <mat-card-header>
+        <mat-card-title>
+          <span>{{activity.dayName | uppercase}} <div class='activity-date' style='display: inline-block'>
+              {{activity.date}}</div></span>
+          <span>
+          </span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="myDay-Card-clock-svg">
+          <div class='cardsImgs'>
+            <img src="/assets/img/clock.png" alt="" srcset="">
+          </div>
+          <div class='my-day-svg-boxs' *ngFor="let activityList of activity['activities'];  let i = index">
+            <div class="list-group-boxs">
+              <div class="boxs"><span>{{activityList.name | uppercase}}</span></div>
+              <div class="list-box-color">
+                <div class=' widthyBox' style=' max-width:100%; height:100%'
+                  [ngStyle]="{'width.%': (activityList.hours*4.16), 'background-color': addingBackGroundColor(i)}">
+                  <img src="https://cdn0.iconfinder.com/data/icons/time-42/1000/Time-05-512.png" alt="clock-icon"
+                    height='20px' width='max-width: 10px'>
+                  <span *ngIf='activityList.hours > 2' style=' max-width: 20px'>
+                    {{activityList.hours}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-card-actions>
+            <button type="button" mat-button color='warn' (click)='deleteCards(i)'>Delete Card</button>
+          </mat-card-actions>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
