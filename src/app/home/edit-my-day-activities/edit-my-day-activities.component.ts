@@ -1,5 +1,5 @@
-import { ActivatedRoute, Route, Router, Routes } from '@angular/router';
-import { Activities } from './../../shared/activities.model';
+import { ApiService } from './../../shared/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActivitiesService } from './../../shared/activities.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
@@ -11,14 +11,15 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./edit-my-day-activities.component.scss']
 })
 export class EditMyDayActivitiesComponent implements OnInit {
-  index: number;
   activitiesFrom: FormGroup;
   totalHours: number;
   hoursSatus = false;
   activitiesArray = new FormArray([]);
   curDate: string;
 
-  constructor(private fb: FormBuilder, private activServ: ActivitiesService, private router: Router, private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private activServ: ActivitiesService,
+    private router: Router, private route: ActivatedRoute,
+    private apiService: ApiService) {
 
   }
 
@@ -33,9 +34,6 @@ export class EditMyDayActivitiesComponent implements OnInit {
       'dayName': [null, Validators.required],
       'activities': this.activitiesArray,
     });
-
-    console.log(this.activServ.getAllActivities());
-
   }
 
   /// New Concepts
@@ -61,29 +59,23 @@ export class EditMyDayActivitiesComponent implements OnInit {
   }
 
   onSubmit() {
-    let totalHours = 0;
+    this.totalHours = 0;
     this.activitiesArray.value.forEach((el) => {
-      totalHours += Number(el.hours);
+      this.totalHours += Number(el.hours);
     });
-    if (totalHours > 24) {
+    if (this.totalHours > 24) {
       this.hoursSatus = true;
       console.log('invalid hours');
     } else {
-      this.totalHours = totalHours;
       this.hoursSatus = false;
-      // console.log(this.activitiesFrom.value);
       // adding a curDate to the form values...
-      const obj = { date: this.curDate };
+      const obj = { date: this.curDate, totalHours: this.totalHours };
       const formValue = { ...this.activitiesFrom.value, ...obj };
-      this.activServ.addActivity(formValue);
-      this.router.navigate(['../view'], { relativeTo: this.route });
-
+      this.apiService.addActivities(formValue).subscribe(res => {
+        this.router.navigate(['../view'], { relativeTo: this.route });
+      });
     }
   }
-
-
-
-
 
   cancel() {
     this.hoursSatus = false;

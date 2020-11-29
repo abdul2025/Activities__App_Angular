@@ -1,37 +1,46 @@
-import { Activities } from './../shared/activities.model';
+import { ApiData } from './../shared/apiData.model';
+import { ApiService } from './../shared/api.service';
 import { ActivitiesService } from './../shared/activities.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-view-teaks',
   templateUrl: './view-teaks.component.html',
   styleUrls: ['./view-teaks.component.scss']
 })
-export class ViewTeaksComponent implements OnInit, OnDestroy {
-  allActivities: Activities[];
-  private isChangeSub: Subscription;
+export class ViewTeaksComponent implements OnInit, AfterViewInit {
+  allActivities: ApiData[];
+  isLoading = false;
+  allActivitiesLen: number;
 
-  constructor(private actiServ: ActivitiesService) { }
+  constructor(private actiServ: ActivitiesService, private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.allActivities = this.actiServ.getAllActivities();
-    this.isChangeSub = this.actiServ.activitiesChanges.subscribe((activities: Activities[]) => {
-      this.allActivities = activities;
-    });
+  }
+  ngAfterViewInit() {
+    this.getActivities();
   }
 
+
+  getActivities() {
+    this.isLoading = true;
+    this.apiService.getAllData().subscribe((data) => {
+      this.isLoading = false;
+      this.allActivitiesLen = data.length;
+      this.allActivities = data;
+      console.log(this.allActivities);
+    });
+  }
   addingBackGroundColor(index) {
     return this.actiServ.addingBackGroundColor(index);
   }
 
-
-  deleteCards(index: number) {
-    this.actiServ.deleteActivity(index);
+  deleteCards(id: string) {
+    this.apiService.deleteActivityCard(id).subscribe(res => {
+      console.log(res);
+      this.getActivities();
+    });
   }
 
 
-  ngOnDestroy() {
-    this.isChangeSub.unsubscribe();
-  }
 }

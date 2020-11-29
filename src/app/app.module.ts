@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { MyDayActivitiesComponent } from './home/my-day-activities/my-day-activities.component';
 import { EditMyDayActivitiesComponent } from './home/edit-my-day-activities/edit-my-day-activities.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

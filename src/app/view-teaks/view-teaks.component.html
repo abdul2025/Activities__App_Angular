@@ -1,16 +1,21 @@
+<p *ngIf='allActivitiesLen < 1 && !isLoading'>No Activties Available</p>
 <div class="row">
-  <div class="col-md-6 cardViews" *ngFor="let activity of allActivities; let i = index;">
+  <p *ngIf='isLoading'>Loading ...</p>
+  <div class="col-md-6 cardViews" *ngFor="let activity of allActivities; let i = index">
     <mat-card class='cards'>
       <mat-card-header>
         <mat-card-title>
           <span>{{activity.dayName | uppercase}} <div class='activity-date' style='display: inline-block'>
               {{activity.date}}</div></span>
-          <span>
-          </span>
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="myDay-Card-clock-svg">
+          <div class=' widthyBox' style=' max-width:100%; height:100%; width:100%' [ngStyle]="">
+            <img src="https://cdn0.iconfinder.com/data/icons/time-42/1000/Time-05-512.png" alt="clock-icon"
+              height='15px' width='max-width: 20px'>
+            <span class='span-total-hours'>TOTAL Hours of Your Tasks: {{activity.totalHours}}</span>
+          </div>
           <div class='cardsImgs'>
             <img src="/assets/img/clock.png" alt="" srcset="">
           </div>
@@ -30,7 +35,7 @@
             </div>
           </div>
           <mat-card-actions>
-            <button type="button" mat-button color='warn' (click)='deleteCards(i)'>Delete Card</button>
+            <button type="button" mat-button color='warn' (click)='deleteCards(activity.id)'>Delete Card</button>
           </mat-card-actions>
         </div>
       </mat-card-content>
