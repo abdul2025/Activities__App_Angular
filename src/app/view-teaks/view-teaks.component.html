@@ -1,6 +1,7 @@
 <p *ngIf='allActivitiesLen < 1 && !isLoading'>No Activties Available</p>
+
 <div class="row">
-  <p *ngIf='isLoading'>Loading ...</p>
+  <div class='isloading' *ngIf='isLoading'><img class='loading-img' src="/assets/img/Spinner-Loading.gif" alt=""></div>
   <div class="col-md-6 cardViews" *ngFor="let activity of allActivities; let i = index">
     <mat-card class='cards'>
       <mat-card-header>

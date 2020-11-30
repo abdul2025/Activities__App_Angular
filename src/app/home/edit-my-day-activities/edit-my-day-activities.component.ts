@@ -16,6 +16,7 @@ export class EditMyDayActivitiesComponent implements OnInit {
   hoursSatus = false;
   activitiesArray = new FormArray([]);
   curDate: string;
+  isLoading = false;
 
   constructor(private fb: FormBuilder, private activServ: ActivitiesService,
     private router: Router, private route: ActivatedRoute,
@@ -59,12 +60,14 @@ export class EditMyDayActivitiesComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isLoading = true;
     this.totalHours = 0;
     this.activitiesArray.value.forEach((el) => {
       this.totalHours += Number(el.hours);
     });
     if (this.totalHours > 24) {
       this.hoursSatus = true;
+      this.isLoading = false;
       console.log('invalid hours');
     } else {
       this.hoursSatus = false;
@@ -72,6 +75,7 @@ export class EditMyDayActivitiesComponent implements OnInit {
       const obj = { date: this.curDate, totalHours: this.totalHours };
       const formValue = { ...this.activitiesFrom.value, ...obj };
       this.apiService.addActivities(formValue).subscribe(res => {
+        this.isLoading = false;
         this.router.navigate(['../view'], { relativeTo: this.route });
       });
     }

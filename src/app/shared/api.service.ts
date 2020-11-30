@@ -34,8 +34,7 @@ export class ApiService {
   addActivities(newActivity) {
     return this.http.post<{ totalHours: number, date: string, dayName: string, activities: ActivitiesLists[] }>
       (this.url, newActivity);
-
-  }
+  } ß
 
   deleteActivityCard(id: string) {
     return this.http.delete(`https://abgular-activity-data.firebaseio.com/posts/${id}.json`);

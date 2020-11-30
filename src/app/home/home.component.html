@@ -2,18 +2,21 @@
   <div class="col-lg-12">
     <app-edit-my-day-activities></app-edit-my-day-activities>
   </div>
-  <div class="col-lg-12">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          <span>Slides for web developer daily activitis bases </span>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-      </mat-card-content>
-    </mat-card>
+  <div class="col-lg-12" style="    padding-top: 19px;">
+    <mat-card-title>
+      <span>Find Useful articles About Angular</span>
+    </mat-card-title>
+    <owl-carousel-o [options]="customOptions" class='slide-cards'>
+      <ng-container *ngFor="let slide of slidesStore">
+        <ng-template carouselSlide [id]="slide.id">
+          <a [href]="slide.link">
+            <img [src]="slide.src" [alt]="slide.alt" [title]="slide.title">
+          </a>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
   </div>
-  <div class="col-lg-12">
+  <!-- <div class="col-lg-12">
     <mat-card>
       <mat-card-header>
         <mat-card-title>
@@ -23,5 +26,5 @@
       <mat-card-content>
       </mat-card-content>
     </mat-card>
-  </div>
+  </div> -->
 </div>

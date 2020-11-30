@@ -103,3 +103,19 @@ nav {
   position: relative;
   top: 30vh;
 }
+
+
+.isloading {
+  z-index: 99;
+  background-color:rgb(113 61 165 / 6%) ;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  // display: none;
+}
+
+.loading-img {
+  position: absolute;
+  top: 40%;
+  right: 45%;
+}

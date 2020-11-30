@@ -1,4 +1,5 @@
 <div class="row">
+  <div class='isloading' *ngIf='isLoading'><img class='loading-img' src="/assets/img/Spinner-Loading.gif" alt=""></div>
   <div class="col-lg-6">
     <mat-card height='auto' style="max-height:600px">
       <mat-card-header>
@@ -53,38 +54,12 @@
                   </span>
                 </div>
               </div>
-              <!-- <div class="boxs">Eating</div>
-              <div class="list-box-color">
-                <div style='background-color: #f44336;
-                width: 10%;'></div>
-              </div>
-              <div class="boxs">Sleeping</div>
-              <div class="list-box-color">
-                <div style='background-color: #ff9800;;
-                width: 100%;'></div>
-              </div>
-              <div class="boxs">Meditation</div>
-              <div class="list-box-color">
-                <div style='background-color: #ffc107;;
-                width: 30%;'></div>
-              </div>
-              <div class="boxs">Reading</div>
-              <div class="list-box-color">
-                <div style='background-color: #00bcd4;
-                width: 60%;'></div>
-              </div> -->
             </div>
           </div>
-          <!-- <mat-card-actions [ngStyle]="{'display':controls.length == 0 ? 'none' : 'block' }">
-            <button type="button" mat-raised-button [disabled]="activitiesFrom.invalid">Save To View</button>
-
-          </mat-card-actions> -->
         </div>
       </mat-card-content>
-
     </mat-card>
   </div>
-
   <div class="col-lg-6">
     <mat-card>
       <mat-card-header style='padding-bottom:20px'>

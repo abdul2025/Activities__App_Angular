@@ -11,6 +11,7 @@ import { MyDayActivitiesComponent } from './home/my-day-activities/my-day-activi
 import { EditMyDayActivitiesComponent } from './home/edit-my-day-activities/edit-my-day-activities.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     MaterialModule,
     HttpClientModule,
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]
