@@ -5,15 +5,23 @@
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav mode="side" opened>
       <nav>
-        <a mat-button class="nav-link" *ngFor="let link of links" [routerLink]="link.path" routerLinkActive="active">
-          <mat-icon>{{link.icon}}</mat-icon>
-          {{link.title}}
-        </a>
-        <hr>
+        <span *ngIf='isAuthenticated'>
+          <a mat-button class="nav-link" *ngFor="let link of links" [routerLink]="link.path" routerLinkActive="active">
+            <mat-icon>{{link.icon}}</mat-icon>
+            {{link.title}}
+          </a>
+        </span>
+        <span *ngIf='!isAuthenticated'>
+          <a mat-button class="nav-link" routerLink="./auth" routerLinkActive="active">
+            <mat-icon>accessibility_new</mat-icon>
+            Please Login First
+          </a>
+        </span>
+        <!-- <hr>
         <a mat-button class='nav-link-soical-media nav-link' *ngFor="let link of socialMedialinks" [href]="link.path">
           <img [src]="link.iconImgPath" alt="" class='soical-media-icons'>
           {{link.title}}
-        </a>
+        </a> -->
       </nav>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -22,4 +30,5 @@
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
+
 </div>

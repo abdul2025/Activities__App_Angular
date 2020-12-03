@@ -1,9 +1,15 @@
 <p *ngIf='allActivitiesLen < 1 && !isLoading'>No Activties Available</p>
-
 <div class="row">
-  <div class='isloading' *ngIf='isLoading'><img class='loading-img' src="/assets/img/Spinner-Loading.gif" alt=""></div>
+  <div class='isloading' *ngIf='error'>
+    <h1>An Error Occurred!! </h1>
+    <p>{{error}}</p>
+  </div>
+  <div class='isloading' *ngIf='isLoading && !error'>
+    <app-loading-spinner></app-loading-spinner>
+  </div>
   <div class="col-md-6 cardViews" *ngFor="let activity of allActivities; let i = index">
     <mat-card class='cards'>
+
       <mat-card-header>
         <mat-card-title>
           <span>{{activity.dayName | uppercase}} <div class='activity-date' style='display: inline-block'>

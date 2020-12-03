@@ -1,5 +1,7 @@
 <div class="row">
-  <div class='isloading' *ngIf='isLoading'><img class='loading-img' src="/assets/img/Spinner-Loading.gif" alt=""></div>
+  <div class='isloading' *ngIf='isLoading && !error'>
+    <app-loading-spinner></app-loading-spinner>
+  </div>
   <div class="col-lg-6">
     <mat-card height='auto' style="max-height:600px">
       <mat-card-header>
@@ -105,6 +107,10 @@
         </div>
         <div class='totatHoursPrevent' [ngStyle]="{'display': hoursSatus ? 'block' : 'none' }">
           Your Total Hours is : {{totalHours}}, Please reduce Activities' Hours
+        </div>
+        <div class='totatHoursPrevent' *ngIf='error'>
+          <h4>An Error Occurred!! </h4>
+          <p>{{error}}</p>
         </div>
 
         <mat-card-actions [ngStyle]="{'display':controls.length == 0 ? 'none' : 'block' }">

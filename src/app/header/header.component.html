@@ -1,42 +1,30 @@
 <div class="row">
   <mat-toolbar color="primary" class="mat-elevation-z4">
+    <div class="lds-ripple">
+      <div></div>
+      <div></div>
+    </div>
     <span class=" logo">
       <img
         src="https://static-s.aa-cdn.net/img/gp/20600010996155/v6Z5TBhdRvmP52gJgJjKlaY_yyotslsyV7qsytfHl76MfMxMShHv4DSD29NsT6Xemw=s300?v=1"
         alt="Logo" class='img-responsive' width='1px'>
     </span>
-    <span class='app-name' style='font-size: 10px; padding: 0px 11px;'>Angular To Do Lists App</span>
+    <span class='app-name' class='header-title'>Angular To Do Lists App</span>
     <button mat-mini-fab class="menu-icon" (click)='toggleSideNavMenu()'>
       <mat-icon>menu</mat-icon>
     </button>
     <span class="spacer"></span>
-    <button mat-icon-button class="favorite-icon" aria-label="icon-button with heart icon">
+    <!-- <button mat-icon-button class="favorite-icon" aria-label="icon-button with heart icon">
       <mat-icon>favorite</mat-icon>
     </button>
     <button mat-icon-button class="share-icon" aria-label="icon-button with share icon">
       <mat-icon>share</mat-icon>
+    </button> -->
+    <button mat-mini-fab class="person-icon" aria-label="icon-button with person icon" [disabled]='isAuthenticated'>
+      <mat-icon *ngIf='!isAuthenticated' routerLink='/auth'>person</mat-icon>
     </button>
-    <button mat-mini-fab class="person-icon" aria-label="icon-button with person icon">
-      <mat-icon>person</mat-icon>
+    <button type="submit" mat-button *ngIf='isAuthenticated'>
+      <p style='font-size: 14px; color: white; padding-top: 10px'>Logout</p>
     </button>
   </mat-toolbar>
-  <!--
-
-  <mat-toolbar color="primary" class="mat-elevation-z4">
-    <span>
-      <button mat-mini-fab (click)="sidenav?.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span class="logo">
-        <img class='img-responsive' src="assets/logo.png" alt="Logo">
-      </span>
-      <span class="title">
-        {{ title }}
-      </span>
-    </span>
-    <span class="spacer"></span>
-    <button class="login" mat-mini-fab (click)="logout()">
-      <mat-icon>person</mat-icon>
-    </button>
-  </mat-toolbar>0 -->
 </div>

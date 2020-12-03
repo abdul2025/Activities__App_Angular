@@ -1,7 +1,9 @@
+import { Subscription } from 'rxjs';
+import { AuthService } from './../../auth/auth.service';
 import { ApiService } from './../../shared/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivitiesService } from './../../shared/activities.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
 
@@ -10,23 +12,29 @@ import { formatDate } from '@angular/common';
   templateUrl: './edit-my-day-activities.component.html',
   styleUrls: ['./edit-my-day-activities.component.scss']
 })
-export class EditMyDayActivitiesComponent implements OnInit {
+export class EditMyDayActivitiesComponent implements OnInit, OnDestroy {
   activitiesFrom: FormGroup;
   totalHours: number;
   hoursSatus = false;
   activitiesArray = new FormArray([]);
   curDate: string;
   isLoading = false;
+  error = null;
+  private userSub: Subscription;
+  isAuthenticated = false;
 
-  constructor(private fb: FormBuilder, private activServ: ActivitiesService,
+  constructor(
+    private fb: FormBuilder, private activServ: ActivitiesService,
     private router: Router, private route: ActivatedRoute,
-    private apiService: ApiService) {
-
-  }
+    private apiService: ApiService, private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
     this.curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.userSub = this.authService.user.subscribe(user => {
+      this.isAuthenticated = !!user;
+    });
   }
 
 
@@ -60,25 +68,29 @@ export class EditMyDayActivitiesComponent implements OnInit {
   }
 
   onSubmit() {
-    this.isLoading = true;
-    this.totalHours = 0;
-    this.activitiesArray.value.forEach((el) => {
-      this.totalHours += Number(el.hours);
-    });
-    if (this.totalHours > 24) {
-      this.hoursSatus = true;
-      this.isLoading = false;
-      console.log('invalid hours');
-    } else {
-      this.hoursSatus = false;
-      // adding a curDate to the form values...
-      const obj = { date: this.curDate, totalHours: this.totalHours };
-      const formValue = { ...this.activitiesFrom.value, ...obj };
-      this.apiService.addActivities(formValue).subscribe(res => {
-        this.isLoading = false;
-        this.router.navigate(['../view'], { relativeTo: this.route });
+    if (this.isAuthenticated) {
+      this.isLoading = true;
+      this.totalHours = 0;
+      this.activitiesArray.value.forEach((el) => {
+        this.totalHours += Number(el.hours);
       });
+      if (this.totalHours > 24) {
+        this.hoursSatus = true;
+        this.isLoading = false;
+      } else {
+        this.hoursSatus = false;
+        // adding a curDate to the form values...
+        const obj = { date: this.curDate, totalHours: this.totalHours };
+        const formValue = { ...this.activitiesFrom.value, ...obj };
+        this.apiService.addActivities(formValue).subscribe(res => {
+          this.isLoading = false;
+          this.router.navigate(['../view'], { relativeTo: this.route });
+        }, error => {
+          this.error = `${error.error.error} status is  ${error.status}`;
+        });
+      }
     }
+    this.error = 'Please Login or Register if not to add you Activities';
   }
 
   cancel() {
@@ -86,4 +98,10 @@ export class EditMyDayActivitiesComponent implements OnInit {
     this.activitiesFrom.reset();
     (this.activitiesFrom.get('activities') as FormArray).clear();
   }
+
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+  }
+
 }

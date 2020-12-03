@@ -1,7 +1,8 @@
+import { AuthService } from './../auth/auth.service';
 import { ActivitiesLists } from './activities-list.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { exhaustMap, map, take } from 'rxjs/operators';
 import { ApiData } from './apiData.model';
 
 
@@ -13,12 +14,18 @@ import { ApiData } from './apiData.model';
 
 
 export class ApiService {
-  url = 'https://abgular-activity-data.firebaseio.com/posts.json';
+  url = 'https://abgular-activity-data.firebaseio.com/activities.json';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getAllData() {
-    return this.http.get<{ [key: string]: ApiData }>(this.url)
+    return this.authService.user.pipe(take(1), exhaustMap(user => {
+      return this.http.get<{ [key: string]: ApiData }>(this.url,
+        {
+          params: new HttpParams().set('auth', user.token)
+        }
+      );
+    }))
       .pipe(map(responseData => {
         const dataRes: ApiData[] = [];
         for (const key in responseData) {
@@ -34,10 +41,10 @@ export class ApiService {
   addActivities(newActivity) {
     return this.http.post<{ totalHours: number, date: string, dayName: string, activities: ActivitiesLists[] }>
       (this.url, newActivity);
-  } ß
+  }
 
   deleteActivityCard(id: string) {
-    return this.http.delete(`https://abgular-activity-data.firebaseio.com/posts/${id}.json`);
+    return this.http.delete(`https://abgular-activity-data.firebaseio.com/activities/${id}.json`);
   }
 
 
