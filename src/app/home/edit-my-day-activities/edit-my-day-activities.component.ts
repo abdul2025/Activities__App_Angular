@@ -22,6 +22,7 @@ export class EditMyDayActivitiesComponent implements OnInit, OnDestroy {
   error = null;
   private userSub: Subscription;
   isAuthenticated = false;
+  userId: string;
 
   constructor(
     private fb: FormBuilder, private activServ: ActivitiesService,
@@ -33,6 +34,7 @@ export class EditMyDayActivitiesComponent implements OnInit, OnDestroy {
     this.initForm();
     this.curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.userSub = this.authService.user.subscribe(user => {
+      this.userId = user.id;
       this.isAuthenticated = !!user;
     });
   }
@@ -82,15 +84,16 @@ export class EditMyDayActivitiesComponent implements OnInit, OnDestroy {
         // adding a curDate to the form values...
         const obj = { date: this.curDate, totalHours: this.totalHours };
         const formValue = { ...this.activitiesFrom.value, ...obj };
-        this.apiService.addActivities(formValue).subscribe(res => {
+        this.apiService.addActivities(formValue, this.userId).subscribe(res => {
           this.isLoading = false;
           this.router.navigate(['../view'], { relativeTo: this.route });
         }, error => {
           this.error = `${error.error.error} status is  ${error.status}`;
         });
       }
+    } else {
+      this.error = 'Please Login or Register if not to add you Activities';
     }
-    this.error = 'Please Login or Register if not to add you Activities';
   }
 
   cancel() {

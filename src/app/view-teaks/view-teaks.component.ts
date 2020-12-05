@@ -1,3 +1,5 @@
+import { AuthService } from './../auth/auth.service';
+import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ApiData } from './../shared/apiData.model';
 import { ApiService } from './../shared/api.service';
@@ -13,16 +15,26 @@ export class ViewTeaksComponent implements OnInit {
   isLoading = false;
   allActivitiesLen: number;
   error = null;
+  private userSub: Subscription;
+  isAuthenticated = false;
+  userId: string;
 
-  constructor(private actiServ: ActivitiesService, private apiService: ApiService) { }
+  constructor(
+    private actiServ: ActivitiesService,
+    private apiService: ApiService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    this.getActivities();
+    this.userSub = this.authService.user.subscribe(user => {
+      this.userId = user.id;
+      this.getActivities();
+    });
   }
 
   getActivities() {
     this.isLoading = true;
-    this.apiService.getAllData().subscribe((data) => {
+    this.apiService.getAllData(this.userId).subscribe((data) => {
       console.log(data);
       this.isLoading = false;
       this.allActivitiesLen = data.length;
@@ -37,8 +49,8 @@ export class ViewTeaksComponent implements OnInit {
     return this.actiServ.addingBackGroundColor(index);
   }
 
-  deleteCards(id: string) {
-    this.apiService.deleteActivityCard(id).subscribe(res => {
+  deleteCards(cardId: string) {
+    this.apiService.deleteActivityCard(cardId, this.userId).subscribe(res => {
       console.log(res);
       this.getActivities();
     });

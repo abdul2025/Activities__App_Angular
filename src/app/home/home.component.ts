@@ -43,10 +43,10 @@ export class HomeComponent implements OnInit {
     { id: 2, src: '/assets/img/javascript-artical.png', alt: 'imgs', title: 'JavaScript', link: 'https://2019.stateofjs.com/overview/' },
   ];
 
-  socialMedialinks = [
-    { path: 'https://github.com/abdul2025', iconImgPath: '/assets/img/github-icon.png', title: 'GitHub' },
-    { path: 'https://twitter.com/wahbi_jed', iconImgPath: '/assets/img/twitter-icon.png', title: 'Twitter' },
-  ];
+  // socialMedialinks = [
+  //   { path: 'https://github.com/abdul2025', iconImgPath: '/assets/img/github-icon.png', title: 'GitHub' },
+  //   { path: 'https://twitter.com/wahbi_jed', iconImgPath: '/assets/img/twitter-icon.png', title: 'Twitter' },
+  // ];
 
   constructor() { }
 

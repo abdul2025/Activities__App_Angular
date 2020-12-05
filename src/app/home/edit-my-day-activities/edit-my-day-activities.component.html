@@ -108,7 +108,7 @@
         <div class='totatHoursPrevent' [ngStyle]="{'display': hoursSatus ? 'block' : 'none' }">
           Your Total Hours is : {{totalHours}}, Please reduce Activities' Hours
         </div>
-        <div class='totatHoursPrevent' *ngIf='error'>
+        <div class='totatHoursPrevent' *ngIf='error && isAuthenticated'>
           <h4>An Error Occurred!! </h4>
           <p>{{error}}</p>
         </div>

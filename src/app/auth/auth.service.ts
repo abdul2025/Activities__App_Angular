@@ -19,13 +19,14 @@ export interface AuthRespData {
 export class AuthService {
 
   user = new BehaviorSubject<User>(null);
+  apiKey = '';
 
   constructor(private http: HttpClient) { }
 
 
 
   signup(email: string, password: string) {
-    return this.http.post<AuthRespData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAEmrjRb4nmjLieCwiCiK0QKxway7DWY9U', {
+    return this.http.post<AuthRespData>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.apiKey}`, {
       email: email,
       password: password,
       returnSecureToken: true
@@ -36,7 +37,7 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.http.post<AuthRespData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAEmrjRb4nmjLieCwiCiK0QKxway7DWY9U', {
+    return this.http.post<AuthRespData>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.apiKey}`, {
       email: email,
       password: password,
       returnSecureToken: true

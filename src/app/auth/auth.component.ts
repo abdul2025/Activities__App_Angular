@@ -39,7 +39,6 @@ export class AuthComponent implements OnInit {
       authObs = this.authService.signup(email, password);
     }
     authObs.subscribe(result => {
-      console.log(result);
       this.isLoading = false;
       this.router.navigate(['./home']);
     }, errorMessage => {

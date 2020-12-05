@@ -18,14 +18,9 @@ export class ApiService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getAllData() {
-    return this.authService.user.pipe(take(1), exhaustMap(user => {
-      return this.http.get<{ [key: string]: ApiData }>(this.url,
-        {
-          params: new HttpParams().set('auth', user.token)
-        }
-      );
-    }))
+  getAllData(userId) {
+    return this.http.get<{ [key: string]: ApiData }>
+      (`https://abgular-activity-data.firebaseio.com/${userId}.json`)
       .pipe(map(responseData => {
         const dataRes: ApiData[] = [];
         for (const key in responseData) {
@@ -38,13 +33,13 @@ export class ApiService {
   }
 
 
-  addActivities(newActivity) {
+  addActivities(newActivity, userId) {
     return this.http.post<{ totalHours: number, date: string, dayName: string, activities: ActivitiesLists[] }>
-      (this.url, newActivity);
+      (`https://abgular-activity-data.firebaseio.com/${userId}.json`, newActivity);
   }
 
-  deleteActivityCard(id: string) {
-    return this.http.delete(`https://abgular-activity-data.firebaseio.com/activities/${id}.json`);
+  deleteActivityCard(cardId: string, userId) {
+    return this.http.delete(`https://abgular-activity-data.firebaseio.com/${userId}/${cardId}.json`);
   }
 
 
