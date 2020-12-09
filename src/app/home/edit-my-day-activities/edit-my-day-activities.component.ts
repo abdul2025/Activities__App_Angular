@@ -34,6 +34,10 @@ export class EditMyDayActivitiesComponent implements OnInit, OnDestroy {
     this.initForm();
     this.curDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.userSub = this.authService.user.subscribe(user => {
+
+      if (!user) {
+        return;
+      }
       this.userId = user.id;
       this.isAuthenticated = !!user;
     });
@@ -69,14 +73,18 @@ export class EditMyDayActivitiesComponent implements OnInit, OnDestroy {
     return this.activServ.addingBackGroundColor(index);
   }
 
+
   onSubmit() {
-    if (this.isAuthenticated) {
-      this.isLoading = true;
+    const getTotalHours = () => {
       this.totalHours = 0;
       this.activitiesArray.value.forEach((el) => {
         this.totalHours += Number(el.hours);
       });
-      if (this.totalHours > 24) {
+      return this.totalHours;
+    };
+    if (this.isAuthenticated) {
+      this.isLoading = true;
+      if (getTotalHours() > 24) {
         this.hoursSatus = true;
         this.isLoading = false;
       } else {

@@ -24,7 +24,7 @@
       <mat-icon *ngIf='!isAuthenticated' routerLink='/auth'>person</mat-icon>
     </button>
     <button type="submit" mat-button *ngIf='isAuthenticated'>
-      <p style='font-size: 14px; color: white; padding-top: 10px'>Logout</p>
+      <p style='font-size: 14px; color: white; padding-top: 10px' (click)='onLogout()'>Logout</p>
     </button>
   </mat-toolbar>
 </div>

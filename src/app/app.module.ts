@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { AuthComponent } from './auth/auth.component';
+import { MainComponent } from './main/main.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AuthComponent } from './auth/auth.component';
     HomeComponent,
     EditMyDayActivitiesComponent,
     AuthComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

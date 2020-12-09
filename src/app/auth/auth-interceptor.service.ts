@@ -14,6 +14,7 @@ export class AuthInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return this.authService.user.pipe(
+      /// take (1) so that we say execute this only one time..
       take(1),
       exhaustMap(user => {
         if (user === null) {

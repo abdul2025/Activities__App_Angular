@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { User } from './user.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -8,7 +9,7 @@ export interface AuthRespData {
   idToken: string;
   email: string;
   refreshToken: string;
-  expiredIn: string;
+  expiresIn: string;
   localId: string;
   registered?: boolean;
 
@@ -21,7 +22,7 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   apiKey = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
 
 
@@ -32,7 +33,7 @@ export class AuthService {
       returnSecureToken: true
     }
     ).pipe(catchError(this.handleError), tap(resDate => {
-      this.handleAuthentication(resDate.email, resDate.localId, resDate.idToken, +resDate.expiredIn);
+      this.handleAuthentication(resDate.email, resDate.localId, resDate.idToken, +resDate.expiresIn);
     }));
   }
 
@@ -43,12 +44,37 @@ export class AuthService {
       returnSecureToken: true
     }
     ).pipe(catchError(this.handleError), tap(resDate => {
-      this.handleAuthentication(resDate.email, resDate.localId, resDate.idToken, +resDate.expiredIn);
+      console.log(resDate.expiresIn);
+
+      this.handleAuthentication(resDate.email, resDate.localId, resDate.idToken, +resDate.expiresIn);
     }));
   }
 
 
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['./auth']);
+  }
 
+
+
+  autoLogin() {
+    const userDate: {
+      email: string,
+      id: string,
+      _token: string,
+      _tokenExprirationDate: string
+    } = JSON.parse(localStorage.getItem('userDate'));
+    if (!userDate) {
+      return;
+    }
+    const loadedUser = new User(userDate.email, userDate.id, userDate._token, new Date(userDate._tokenExprirationDate));
+
+
+    if (loadedUser.token) {
+      this.user.next(loadedUser);
+    }
+  }
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(
@@ -58,7 +84,9 @@ export class AuthService {
       expirationDate
     );
     this.user.next(user);
+    localStorage.setItem('userDate', JSON.stringify(user));
   }
+
 
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred';

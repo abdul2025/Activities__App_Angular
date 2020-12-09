@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from './../auth/auth.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -11,14 +12,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Input() sideNav;
   private userSub: Subscription;
   isAuthenticated = false;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
 
 
 
   ngOnInit(): void {
     this.sideNav.opened = false;
-    console.log(this.isAuthenticated);
     this.userSub = this.authService.user.subscribe(user => {
       this.isAuthenticated = !!user;
     });
@@ -27,6 +27,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleSideNavMenu() {
     this.sideNav.opened = !this.sideNav.opened;
+  }
+
+
+  onLogout() {
+    this.authService.logout();
   }
 
 

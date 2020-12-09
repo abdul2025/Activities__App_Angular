@@ -1,6 +1,6 @@
 import { AuthService } from './../auth/auth.service';
 import { Subscription } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiData } from './../shared/apiData.model';
 import { ApiService } from './../shared/api.service';
 import { ActivitiesService } from './../shared/activities.service';
@@ -10,7 +10,7 @@ import { ActivitiesService } from './../shared/activities.service';
   templateUrl: './view-teaks.component.html',
   styleUrls: ['./view-teaks.component.scss']
 })
-export class ViewTeaksComponent implements OnInit {
+export class ViewTeaksComponent implements OnInit, OnDestroy {
   allActivities: ApiData[];
   isLoading = false;
   allActivitiesLen: number;
@@ -56,5 +56,9 @@ export class ViewTeaksComponent implements OnInit {
     });
   }
 
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+  }
 
 }
