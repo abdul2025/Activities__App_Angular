@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface AuthRespData {
   idToken: string;
@@ -20,7 +21,7 @@ export interface AuthRespData {
 export class AuthService {
 
   user = new BehaviorSubject<User>(null);
-  apiKey = '';
+  apiKey = environment.firebaseApiKey;
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) { }
