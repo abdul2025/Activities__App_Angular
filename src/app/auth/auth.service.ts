@@ -30,8 +30,8 @@ export class AuthService {
 
   signup(email: string, password: string) {
     return this.http.post<AuthRespData>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.apiKey}`, {
-      email: email,
-      password: password,
+      email,
+      password,
       returnSecureToken: true
     }
     ).pipe(catchError(this.handleError), tap(resDate => {
@@ -41,8 +41,8 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.http.post<AuthRespData>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.apiKey}`, {
-      email: email,
-      password: password,
+      email,
+      password,
       returnSecureToken: true
     }
     ).pipe(catchError(this.handleError), tap(resDate => {
